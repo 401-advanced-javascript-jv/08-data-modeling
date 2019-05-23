@@ -3,6 +3,7 @@
 const uuid = require('uuid/v4');
 
 const schema = {
+  _id: { type: String, required: true },
   name: { type: String, required: true },
 };
 
@@ -11,18 +12,44 @@ class Products {
     this.database = [];
   }
 
-  get(_id) {}
+  get(_id) {
+    let res = _id
+      ? this.database.filter((record) => {
+        return record._id === _id;
+      })
+      : this.database;
+    return Promise.resolve(res);
+  }
 
   post(entry) {
     entry._id = uuid();
+    let record = this.sanitize(entry);
+    // Only insert when there's a record... which there will always be
+    // I'm unsure why the example has the following line
+    // I commented it out.
+    // if (record._id) { this.database.push(record) }
+    return Promise.resolve(record);
   }
 
   put(_id, entry) {
     let record = this.sanitize(entry);
-    
+    if (record._id) {
+      // This goes through the entire database.
+      // For every single update.
+      // Horrible.
+      this.database = this.database.map((item) => {
+        return item._id === _id ? record : item;
+      });
+    }
+    return Promise.resolve(record);
   }
 
-  delete(_id) {}
+  delete(_id) {
+    this.database = this.database.filter((record) => {
+      return record._id !== _id;
+    });
+    return Promise.resolve();
+  }
 
   sanitize(entry) {
     let valid = true;
@@ -41,7 +68,6 @@ class Products {
     });
 
     return valid ? record : undefined;
-    
   }
 }
 
