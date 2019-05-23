@@ -1,6 +1,6 @@
-# LAB - 
+# LAB - 08
 
-## Project Name
+## Data Modelling and Database Handling
 
 ### Author: Jesse Van Volkinburg
 
