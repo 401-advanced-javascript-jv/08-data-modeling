@@ -1,7 +1,6 @@
 'use strict';
 
 const schema = require('./categories-schema.js');
-const uuid = require('uuid/v4');
 
 class Categories {
 
@@ -14,15 +13,16 @@ class Categories {
   }
   
   post(record) {
-    record._id = uuid();
     let newRecord = new schema(record);
     return newRecord.save();
   }
 
   put(_id, record) {
+    return schema.findByIdAndUpdate(_id, record, {new:true});
   }
 
   delete(_id) {
+    return schema.findByIdAndDelete(_id);
   }
 
 }
