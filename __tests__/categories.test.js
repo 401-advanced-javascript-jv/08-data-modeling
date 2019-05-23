@@ -61,7 +61,7 @@ describe('Categories model', () => {
     }
   });
 
-  it('can put()/update a category to update', () => {});
+  it('can put()/update a category', () => {});
 
   it('can delete() a category from the database', () => {});
 });

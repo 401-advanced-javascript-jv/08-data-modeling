@@ -24,15 +24,19 @@ class Products {
   post(entry) {
     entry._id = uuid();
     let record = this.sanitize(entry);
-    // Only insert when there's a record... which there will always be
+    // Only insert when there's a record... which there will always be because
+    // the entry gets sanitized and only correct entries pass...
     // I'm unsure why the example has the following line
     // I commented it out.
     // if (record._id) { this.database.push(record) }
+    this.database.push(record);
     return Promise.resolve(record);
   }
 
   put(_id, entry) {
-    let record = this.sanitize(entry);
+    let updatedInfo = entry;
+    updatedInfo._id = _id;
+    let record = this.sanitize(updatedInfo);
     if (record._id) {
       // This goes through the entire database.
       // For every single update.
